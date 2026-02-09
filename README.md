@@ -1,6 +1,6 @@
-# FitWise 🏋️‍♂️🤖
+# BeFit
 
-**FitWise** is an intelligent AI-powered workout assistant that combines **Agentic AI**, **RAG-enhanced knowledge**, and **MediaPipe pose detection** to create personalized workout routines and provide real-time form correction — designed for fitness enthusiasts at every level.
+**BeFit** is an intelligent AI-powered workout assistant that combines **Agentic AI**, **RAG-enhanced knowledge**, and **MediaPipe pose detection** to create personalized workout routines and provide real-time form correction — designed for fitness enthusiasts at every level.
 
 ![Screenshot 2025-06-22 045702](https://github.com/user-attachments/assets/f68cb949-4dcd-406f-9eb3-c41e8b59f632)
 
@@ -61,7 +61,7 @@
 
 ## 🤖 Agentic AI Workflow
 
-FitWise implements a sophisticated agentic AI system that orchestrates multiple tools and knowledge sources to provide comprehensive fitness assistance:
+BeFit implements a sophisticated agentic AI system that orchestrates multiple tools and knowledge sources to provide comprehensive fitness assistance:
 ![Editor _ Mermaid Chart-2025-06-22-011233](https://github.com/user-attachments/assets/ccda9128-e5f2-4045-a161-aae3a73deae6)
 
 
@@ -242,7 +242,7 @@ AI: "Generated tracking configuration for tricep dips with elbow angle monitorin
 
 ## 🚧 Challenges I Ran Into
 
-Building FitWise presented several unique technical challenges that required innovative solutions:
+Building BeFit presented several unique technical challenges that required innovative solutions:
 
 ### **MediaPipe Angle Data Preprocessing**
 Transforming raw MediaPipe pose landmarks into meaningful angle data for LLM consumption was more complex than anticipated. The challenge involved:
@@ -326,7 +326,7 @@ We welcome contributions! Here's how you can help:
 
 ## � License
 
-FitWise is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
+BeFit is licensed under the **MIT License**. See [LICENSE](LICENSE) for details.
 
 ---
 
