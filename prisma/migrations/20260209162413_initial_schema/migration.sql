@@ -87,10 +87,30 @@ CREATE TABLE "workout_exercise" (
     "equipment" TEXT,
     "notes" TEXT,
     "workoutId" TEXT NOT NULL,
+    "exerciseConfigId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "workout_exercise_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "exercise_config" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "displayName" TEXT NOT NULL,
+    "description" TEXT,
+    "exerciseType" TEXT NOT NULL,
+    "primaryMuscles" TEXT[],
+    "movementPattern" TEXT NOT NULL,
+    "keyJoints" TEXT[],
+    "movementDirection" TEXT NOT NULL,
+    "config" JSONB NOT NULL,
+    "generatedBy" TEXT NOT NULL DEFAULT 'AI',
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "exercise_config_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -98,6 +118,9 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "exercise_config_name_key" ON "exercise_config"("name");
 
 -- AddForeignKey
 ALTER TABLE "session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -110,3 +133,6 @@ ALTER TABLE "workout" ADD CONSTRAINT "workout_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "workout_exercise" ADD CONSTRAINT "workout_exercise_workoutId_fkey" FOREIGN KEY ("workoutId") REFERENCES "workout"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "workout_exercise" ADD CONSTRAINT "workout_exercise_exerciseConfigId_fkey" FOREIGN KEY ("exerciseConfigId") REFERENCES "exercise_config"("id") ON DELETE SET NULL ON UPDATE CASCADE;
