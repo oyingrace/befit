@@ -2,6 +2,8 @@
 
 **BeFit** is an intelligent AI-powered workout assistant that combines **Agentic AI**, **RAG-enhanced knowledge**, and **MediaPipe pose detection** to create personalized workout routines and provide real-time form correction — designed for fitness enthusiasts at every level.
 
+ [Live App](https://befit-fittness.vercel.app/) | [Demo Video (YouTube)](https://youtu.be/mEzknaqCbbU?si=Zy4L5eib8vtrH063) | [Demo Video (Google Drive](https://drive.google.com/drive/folders/1ff_cWAQ_TZpjSpCUOILpgz3tO17JKn0m)
+
 ![BeFit Dashboard](static/demo-img-1.png)
 
 ![BeFit Form Analysis](static/demo-img-2.png)
