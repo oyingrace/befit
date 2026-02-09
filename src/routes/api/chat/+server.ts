@@ -6,6 +6,7 @@ import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/prisma';
 import { auth } from '$lib/auth';
+import { getOpikTelemetry } from '$lib/opik';
 
 // Types
 interface RAGSource {
@@ -601,6 +602,17 @@ If the user's question relates to the provided sources, use that information as 
 			},
 			maxSteps: 5,
 			toolCallStreaming: true,
+			experimental_telemetry: getOpikTelemetry({
+				name: 'chat-message',
+				threadId: userId || `anonymous-${Date.now()}`,
+				metadata: {
+					userId: userId || 'anonymous',
+					messageCount: messages.length,
+					hasRAG: ragContext ? true : false,
+					ragSourcesCount: sources.length,
+					model: CHAT_MODEL,
+				},
+			}),
 			onStepFinish: (step) => {
 				console.log('Chat API: Step finished:', {
 					stepType: step.stepType,

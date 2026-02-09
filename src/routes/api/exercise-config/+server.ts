@@ -4,6 +4,7 @@ import { generateObject } from 'ai';
 import { z } from 'zod';
 import type { RequestHandler } from './$types';
 import { prisma } from '$lib/prisma';
+import { getOpikTelemetry } from '$lib/opik';
 
 // Configuration
 const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
@@ -195,6 +196,16 @@ Analyze this exercise and generate a MediaPipe pose tracking configuration. Cons
 			prompt: userPrompt,
 			system: systemPrompt,
 			temperature: 0.3, // Lower temperature for more consistent configs
+			experimental_telemetry: getOpikTelemetry({
+				name: 'exercise-config-generation',
+				metadata: {
+					exerciseName,
+					exerciseDescription: exerciseDescription || 'none',
+					romFocus,
+					autoSave,
+					model: CHAT_MODEL,
+				},
+			}),
 		});
 
 		const timeoutPromise = new Promise((_, reject) =>

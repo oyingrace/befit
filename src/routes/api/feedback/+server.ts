@@ -3,6 +3,7 @@ import { OpenAICompatibleChatLanguageModel } from '@ai-sdk/openai-compatible';
 import { QdrantClient } from '@qdrant/js-client-rest';
 import { generateObject, type LanguageModelV1 } from 'ai';
 import type { RequestHandler } from './$types';
+import { getOpikTelemetry } from '$lib/opik';
 
 // TTS Configuration - Using browser's built-in SpeechSynthesis API (free, no API key required)
 // Audio is generated client-side using the browser's native TTS
@@ -272,7 +273,20 @@ Return:
 		const result = await generateObject({
 			model,
 			schema: WorkoutFeedbackOutputSchema,
-			prompt
+			prompt,
+			experimental_telemetry: getOpikTelemetry({
+				name: 'feedback-generation',
+				metadata: {
+					exerciseName: input.exerciseName,
+					repNumber: input.repNumber,
+					rangeOfMotion: input.rangeOfMotion,
+					duration: input.duration,
+					enableRAG: input.enableRAG || false,
+					enableVoice: input.enableVoice || false,
+					hasTargetAngles: !!input.targetAngles,
+					model: CHAT_MODEL,
+				},
+			}),
 		});
 
 		const feedback = result.object;
