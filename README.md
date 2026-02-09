@@ -63,15 +63,6 @@ BeFit implements a sophisticated agentic AI system that orchestrates multiple to
 ![Editor _ Mermaid Chart-2025-06-22-011233](https://github.com/user-attachments/assets/ccda9128-e5f2-4045-a161-aae3a73deae6)
 
 
-### Agentic Components:
-
-1. **Query Analysis Agent**: Determines if queries are fitness-related and routes appropriately
-2. **RAG Retrieval Agent**: Searches vector database for relevant exercise science research
-3. **Workout Generation Agent**: Creates personalized routines using evidence-based principles
-4. **Exercise Config Agent**: Generates MediaPipe configurations for any exercise dynamically
-5. **Persistence Agent**: Manages user data, workout storage, and exercise configurations
-6. **Feedback Agent**: Provides real-time form analysis using pose detection data
-
 ---
 
 ## 🛠️ Tech Stack
