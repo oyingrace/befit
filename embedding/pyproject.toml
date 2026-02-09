@@ -1,0 +1,11 @@
+[project]
+name = "embedding"
+version = "0.1.0"
+description = "Scraping and embedding service using LM Studio"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests",
+    "beautifulsoup4", 
+    "qdrant-client"
+]

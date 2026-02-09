@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  isAnonymous   Boolean?
+  sessions      Session[]
+  accounts      Account[]
+  workouts      Workout[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Workout {
+  id              String            @id @default(cuid())
+  name            String
+  description     String
+  totalDuration   Int               // Duration in minutes
+  frequency       String
+  fitnessLevel    FitnessLevel
+  goals           String
+  equipment       String[]          // Array of equipment names
+  userId          String
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercises       WorkoutExercise[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@map("workout")
+}
+
+model WorkoutExercise {
+  id              String         @id @default(cuid())
+  name            String
+  sets            Int
+  reps            String         // Can be a range like "8-12"
+  rest            String         // Rest time between sets
+  equipment       String?        // Required equipment for this exercise
+  notes           String?        // Form tips or modifications
+  workoutId       String
+  workout         Workout        @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exerciseConfigId String?       // Optional link to exercise config
+  exerciseConfig  ExerciseConfig? @relation(fields: [exerciseConfigId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@map("workout_exercise")
+}
+
+model ExerciseConfig {
+  id              String   @id @default(cuid())
+  name            String   @unique // Normalized exercise name (e.g., "bicep_curl")
+  displayName     String   // Human-readable name (e.g., "Bicep Curl")
+  description     String?  // Optional exercise description
+  exerciseType    String   // upper_body, lower_body, full_body, core
+  primaryMuscles  String[] // Array of primary muscles worked
+  movementPattern String   // push, pull, squat, hinge, lunge, rotation, isometric
+  keyJoints       String[] // Key joints involved in movement
+  movementDirection String // vertical, horizontal, diagonal, rotational
+  config          Json     // The actual MediaPipe configuration as JSON
+  generatedBy     String   @default("AI") // "AI" or "PREDEFINED"
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  // Track which workouts use this config
+  workoutExercises WorkoutExercise[]
+
+  @@map("exercise_config")
+}
+
+enum FitnessLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+
+  @@map("fitness_level")
+}
